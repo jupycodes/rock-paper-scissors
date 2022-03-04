@@ -1,60 +1,66 @@
+let computerChoiceDisplay = document.getElementById('computer-choice');
+let playerChoiceDisplay = document.getElementById('player-choice');
+let computerScoreDisplay = document.getElementById('computer-score');
+let playerScoreDisplay = document.getElementById('player-score');
+let resultDisplay = document.getElementById('result');
+let possibleChoices = document.querySelectorAll('button');
+let playerChoice;
+let computerChoice;
+let roundResult;
+let playerScore = 0;
+let computerScore = 0;
+
+possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
+    playerChoice = e.target.id;
+    playerChoiceDisplay.innerHTML = playerChoice;
+    computerPlay();
+    playRound();
+    game()
+}))
+
 function generateRandomInteger(min, max) {
     return Math.floor(Math.random()*(max-min+1))+min;
 }
-
-
 function computerPlay() {
     let choices = ["rock", "paper", "scissors"];
     let choice = generateRandomInteger(0,2);
-    return choices[choice];
+    computerChoice = choices[choice];
+    computerChoiceDisplay.innerHTML = computerChoice;
 }
 
 function playRound() {
-    let computerSelection = computerPlay();
-    let playerSelection = prompt("Choose rock, paper, or scissors").toLowerCase();
-    let winner = "";
-
-    if ((playerSelection == "rock" && computerSelection == "scissors") ||
-            (playerSelection == "paper" && computerSelection == "rock") ||
-            (playerSelection == "scissors" && computerSelection == "paper")) {
-                winner = "player";
-                console.log(`You win! ${playerSelection} beats ${computerSelection}.`);
-    } else if ((computerSelection == "rock" && playerSelection == "scissors") ||
-            (computerSelection == "paper" && playerSelection == "rock") ||
-            (computerSelection == "scissors" && playerSelection == "paper")) {
-                winner = "computer";
-                console.log(`You lose! ${computerSelection} beats ${playerSelection}.`);
+    if ((playerChoice == "rock" && computerChoice == "scissors") ||
+            (playerChoice == "paper" && computerChoice == "rock") ||
+            (playerChoice == "scissors" && computerChoice == "paper")) {
+                roundResult = "player";
+                playerScore ++;
+                resultDisplay.innerHTML = `${roundResult} wins!`;
+    } else if ((computerChoice == "rock" && playerChoice == "scissors") ||
+            (computerChoice == "paper" && playerChoice == "rock") ||
+            (computerChoice == "scissors" && playerChoice == "paper")) {
+                roundResult = "computer";
+                computerScore ++
+                resultDisplay.innerHTML = `${roundResult} wins!`;
     } else {
-                console.log("It's a tie!");
-    } 
-    return winner;
-}
+                resultDisplay.innerHTML = "It's a tie!";
+    }
+    playerScoreDisplay.innerHTML = playerScore
+    computerScoreDisplay.innerHTML = computerScore
+};
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    let round = 1
-    
-    while (round < 6) {
-        console.log(`Round ${round} of 5`)
-        let winner = playRound();
-        if (winner == "player") {
-            playerScore++;
-            round++;
-        } else if (winner == "computer") {
-            computerScore++;
-            round++;
-        }
-        console.log("Player score: " + playerScore);
-        console.log("Computer score: " + computerScore);
+document.getElementById("refresh-button").style.visibility = "hidden";
+
+let winnerAnnouncement = document.getElementById('winner-announcement')
+function game(){
+
+    if (playerScore == 5){
+        winnerAnnouncement.innerHTML = "You win! Play again?"
+        document.getElementById("refresh-button").style.visibility = "visible";
+    } else if (computerScore == 5){
+        winnerAnnouncement.innerHTML = "You lost! Play again?"
+        document.getElementById("refresh-button").style.visibility = "visible";
     }
     
-    if (playerScore > computerScore) {
-        console.log("Congratulations! You win the game!");
-    } else {
-        console.log("Uh oh, you lost! :(");
-    }
-
+    
+    
 }
-
-console.log(game());
