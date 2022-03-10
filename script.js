@@ -12,7 +12,7 @@ let computerScore = 0;
 
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
     playerChoice = e.target.id;
-    playerChoiceDisplay.innerHTML = playerChoice;
+    playerChoiceDisplay.innerHTML = `You chose ${playerChoice}`;
     computerPlay();
     playRound();
     game()
@@ -25,7 +25,7 @@ function computerPlay() {
     let choices = ["rock", "paper", "scissors"];
     let choice = generateRandomInteger(0,2);
     computerChoice = choices[choice];
-    computerChoiceDisplay.innerHTML = computerChoice;
+    computerChoiceDisplay.innerHTML = `The computer chose ${computerChoice}`;
 }
 
 function playRound() {
@@ -44,8 +44,8 @@ function playRound() {
     } else {
                 resultDisplay.innerHTML = "It's a tie!";
     }
-    playerScoreDisplay.innerHTML = playerScore
-    computerScoreDisplay.innerHTML = computerScore
+    playerScoreDisplay.innerHTML = `Player score: ${playerScore}`
+    computerScoreDisplay.innerHTML = `Computer score: ${computerScore}`
 };
 
 document.getElementById("refresh-button").style.visibility = "hidden";
